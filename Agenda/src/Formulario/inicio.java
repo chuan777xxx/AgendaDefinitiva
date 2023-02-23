@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -13,6 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JTable;
 
 public class inicio extends JFrame {
 	ArrayList agenda= new ArrayList();
@@ -22,6 +24,7 @@ public class inicio extends JFrame {
 	private JTextField textoapellido;
 	private JTextField textotelefono;
 	private JTextField textoemail;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -44,7 +47,7 @@ public class inicio extends JFrame {
 	 */
 	public inicio() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 651, 478);
+		setBounds(100, 100, 749, 543);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -104,15 +107,21 @@ public class inicio extends JFrame {
 				String t = textotelefono.getText();
 				String m = textoemail.getText();
 				
-				if(n.isEmpty()) {
-					if(a.isEmpty()) {
-						if(t.isEmpty()) {
-							if(m.isEmpty()) {
+				if(!n.isEmpty()) {
+					if(!a.isEmpty()) {
+						if(!t.isEmpty()) {
+							if(!m.isEmpty()) {
 								
 								clase clas = new clase(n,a,Integer.parseInt(t),m);
 								agenda.add(clas);
 								
 								JOptionPane.showMessageDialog(null,"Contacto Guardado");
+								
+								textonombre.setText("");
+								textoapellido.setText("");
+								textotelefono.setText("");
+								textoemail.setText("");
+								
 							}else {
 								JOptionPane.showMessageDialog(null,"El campo email esta vacio");
 							}
@@ -130,5 +139,25 @@ public class inicio extends JFrame {
 		});
 		guardar.setBounds(114, 309, 140, 23);
 		contentPane.add(guardar);
+		
+		table = new JTable();
+		table.setBounds(327, 115, 366, 334);
+		contentPane.add(table);
+		
+		JButton mostrar = new JButton("Mostrar");
+		mostrar.setBounds(327, 81, 89, 23);
+		contentPane.add(mostrar);
+	}
+	DefaultTableModel M;
+	private void CrearModelo() {
+		try {
+			M = (new DefaultTableModel(
+			null, new String [] {
+				"Nombre","Apellido","Telefono","Email"})
+					);
+			
+		}catch (Exception e) {
+			JOptionPane.showMessageDialog(null,"Error");
+		}
 	}
 }
